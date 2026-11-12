@@ -12,14 +12,7 @@ export interface CourseDto {
   imageUrl?: string;
 }
 
-export interface EnrollmentRequestDto {
-  courseId: string;
-  message?: string;
-}
-
-export interface EnrollmentResponseDto {
-  id: string;
-  courseId: string;
-  status: 'pending' | 'confirmed';
-  createdAt: string;
+export interface CourseFilters {
+  category?: string;
+  level?: CourseLevel;
 }

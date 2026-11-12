@@ -1,8 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CourseList } from './components/CourseList';
+import { CourseDetails } from './components/CourseDetails';
+import { MyEnrollments } from './components/MyEnrollments';
 import { UserProfile } from './components/UserProfile';
+import type { CourseLevel } from './types/course';
 
 export default function App() {
+  const [category, setCategory] = useState('');
+  const [level, setLevel] = useState<CourseLevel | ''>('');
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+
   useEffect(() => {
     const onUnauthorized = () => console.info('Сесію завершено. Потрібен повторний вхід.');
     window.addEventListener('auth:unauthorized', onUnauthorized);
@@ -33,7 +40,11 @@ export default function App() {
     </section>
     <section className="content-section" id="courses">
       <div className="content-intro"><span>01 — НАВЧАЙСЯ</span><p>Курси, що відкривають<br />нові горизонти<span className="brand-dot">.</span></p></div>
-      <div className="content-layout"><CourseList /><div id="profile"><UserProfile /></div></div>
+      <div className="catalog-layout">
+        <CourseList category={category} level={level} onCategoryChange={setCategory} onLevelChange={setLevel} onSelectCourse={setSelectedCourseId} />
+        <div className="course-sidebar"><CourseDetails courseId={selectedCourseId} /><div id="profile"><UserProfile /></div></div>
+      </div>
+      <MyEnrollments />
     </section>
     <footer><a className="brand" href="#top"><span className="brand-mark">m</span> mai<span className="brand-dot">.</span></a><span>Навчайся. Рости. Створюй своє.</span><span>© 2026</span></footer>
   </main>;
